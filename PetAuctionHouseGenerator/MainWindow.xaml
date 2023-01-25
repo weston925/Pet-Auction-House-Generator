@@ -1,0 +1,167 @@
+﻿<Window x:Class="PetAuctionHouseGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PetAuctionHouseGenerator"
+        mc:Ignorable="d"
+        Title="Pet Auction House Generator" MinHeight="200" MinWidth="400" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainWindowData/>
+    </Window.DataContext>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Add User" Padding="10,1" HorizontalAlignment="Left" Click="AddUserButton_Click"/>
+                <Button Grid.Column="2" Content="Delete User" Padding="10,1" HorizontalAlignment="Left" Click="DeleteUserButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedItem, ElementName=UserListBox}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Column="4" Content="Quick Add Pet" Padding="10,1" HorizontalAlignment="Right" Click="QuickAddPetButton_Click"/>
+            </Grid>
+            <ListBox x:Name="UserListBox" Grid.Row="1" ItemsSource="{Binding Users}" d:ItemsSource="{d:SampleData ItemCount=5}" DisplayMemberPath="Name"/>
+        </Grid>
+        <GroupBox Grid.Column="2" Grid.Row="0" Header="User" DataContext="{Binding SelectedItem, ElementName=UserListBox}">
+            <GroupBox.Style>
+                <Style TargetType="GroupBox">
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </GroupBox.Style>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Content="Add Standard Pet" Padding="10,1" Margin="0,0,5,0" Click="AddStandardPetButton_Click"/>
+                    <Button Grid.Column="2" Content="Add Custom Pet" Padding="10,1" Click="AddCustomPetButton_Click"/>
+                </Grid>
+                <Label Grid.Row="1" Content="Pets"/>
+                <DataGrid Name="PetDataGrid" Grid.Row="2" ItemsSource="{Binding Path=(local:User.Pets)}" d:ItemsSource="{d:SampleData ItemCount=5}" AutoGenerateColumns="False" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Type" MinWidth="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type local:IPet}">
+                                    <TextBlock Text="{Binding Type}" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Image" MinWidth="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type local:IPet}">
+                                    <Image Source="{Binding ImageUrl}" Width="100"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <GroupBox Grid.Row="3" Header="Pet" DataContext="{Binding SelectedItem, ElementName=PetDataGrid}" Margin="0,5,0,0">
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <Grid>
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=(local:IPet.Type), FallbackValue=Standard}" Value="Standard">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Content="Name"/>
+                            <TextBox Grid.Row="1" Text="{Binding Path=(local:Pet.Name)}"/>
+                            <Label Grid.Row="2" Content="Type"/>
+                            <TextBox Grid.Row="3" Text="{Binding Path=(local:Pet.PetType)}"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=(local:IPet.Type), FallbackValue=Standard}" Value="Custom">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Content="Image Url"/>
+                            <TextBox Grid.Row="1" Text="{Binding Path=(local:CustomPet.ImageUrl)}"/>
+                            <Label Grid.Row="2" Content="Image Link"/>
+                            <TextBox Grid.Row="3" Text="{Binding Path=(local:CustomPet.ImageLink)}"/>
+                            <Label Grid.Row="4" Content="Pet Text"/>
+                            <TextBox Grid.Row="5" Text="{Binding Path=(local:CustomPet.PetText)}"/>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <Label Grid.Row="4" Content="User Name"/>
+                <TextBox Grid.Row="5" Text="{Binding Path=(local:User.Name)}" Margin="0,0,0,5"/>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Row="1" Grid.ColumnSpan="3" Content="Generate" Padding="10,1" Margin="0,10,0,0" HorizontalAlignment="Right" Click="GenerateButton_Click"/>
+    </Grid>
+</Window>

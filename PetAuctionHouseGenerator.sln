@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetAuctionHouseGenerator", "PetAuctionHouseGenerator\PetAuctionHouseGenerator.csproj", "{D4039E90-469E-470E-9353-55FC01E0FE0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|x64 = All|x64
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4039E90-469E-470E-9353-55FC01E0FE0E}.All|x64.ActiveCfg = Release|x64
+		{D4039E90-469E-470E-9353-55FC01E0FE0E}.All|x64.Build.0 = Release|x64
+		{D4039E90-469E-470E-9353-55FC01E0FE0E}.Debug|x64.ActiveCfg = Debug|x64
+		{D4039E90-469E-470E-9353-55FC01E0FE0E}.Debug|x64.Build.0 = Debug|x64
+		{D4039E90-469E-470E-9353-55FC01E0FE0E}.Release|x64.ActiveCfg = Release|x64
+		{D4039E90-469E-470E-9353-55FC01E0FE0E}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD5F666C-2271-4745-B1EB-DBB985F35BE6}
+	EndGlobalSection
+EndGlobal
